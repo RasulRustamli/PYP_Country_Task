@@ -2,10 +2,6 @@
 using PYP_Country_Task.Model;
 using System.Net;
 
-//HttpClient client=new HttpClient();
-//var countryNames = await client.GetAsync("http://country.io/names.json");
-//var countrynameStr = new WebClient().DownloadString(countryNames);
-
 
 List<string> urls = new List<string>()
 {
@@ -18,7 +14,13 @@ List<string> urls = new List<string>()
 };
 
 
-List<Country> countryList = new List<Country>();
+//HttpClient client=new HttpClient();
+//var countryNames = await client.GetAsync("http://country.io/names.json");
+//var countrynameStr = new WebClient().DownloadString(countryNames);
+
+
+
+List<Country> countries = new List<Country>();
 
 foreach (var url in urls)
 {
@@ -27,17 +29,18 @@ foreach (var url in urls)
 
     foreach (var item in data)
     {
-        var country = countryList.FirstOrDefault(x => x.Code == item.Key);
+        var country = countries.FirstOrDefault(x => x.Code == item.Key);
         if (country == null)
         {
             country = new Country();
-            country.Code = item.Key;
-            countryList.Add(country);
+            countries.Add(country);
         }
 
         if (url == urls[0])
         {
             country.Name = item.Value;
+            country.Code = item.Key;
+
 
         }
         else if (url == urls[1])
@@ -69,15 +72,15 @@ foreach (var url in urls)
 }
 
 
-// Display the data
+
 
 Console.WriteLine("{0,-10}{1,-10}{2,-15}{3,-15}{4,-25}{5,-15}{6,-15}", "Phone", "ISO", "Capital", "Currency", "Continent", "Code", "Name");
 Console.WriteLine("{0,-10}{1,-10}{2,-15}{3,-15}{4,-25}{5,-15}{6,-15}", "-------", "-----", "----------", "----------", "-----------------------", "----------", "----------");
 
 int i = 0;
-foreach (var item in countryList)
+foreach (var item in countries)
 {
     Console.WriteLine("{0,-10}{1,-10}{2,-15}{3,-15}{4,-25}{5,-15}{6,-15}", item.Phone, item.ISO, item.Capital, item.Currency, item.Continent, i, item.Name);
-    i++;
+    
 }
 
